@@ -1,4 +1,10 @@
-// console.log("the start of something crusty");
+/**
+ * Ferrum - A safe, immutable, and functional programming library for TypeScript.
+ * This library provides safe numeric types, immutable data structures,
+ * and functional utilities to help you write safer and more maintainable code.
+ *
+ * @module ferrum
+ */
 
 /** Branded types for compilw-tiime safety. */
 type Brand<T, B> = T & { readonly __brand: B };
