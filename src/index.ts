@@ -80,7 +80,17 @@ export const safe = {
     error,
   }),
 
-  /** Creates an Option with a value. */
+  /** Creates an Option with a value.
+   * This is useful for functions that may return a value or nothing.
+   * @param value - The value to return.
+   * @return An Option with the value.
+   * @example
+   * ```typescript
+   * import { safe } from "ferrum";
+   * const option = safe.some(42);
+   * console.log(option); // { kind: "some", value: 42 }
+   * ```
+   */
   some: <T>(value: T): Option<T> => ({
     kind: "some",
     value,
@@ -270,19 +280,6 @@ function safe_arithmetic() {
     ? safe.int((a.value as number) + (b.value as number))
     : safe.error("Invalid integers integer for arithmetic");
 }
-
-// console.log(typeof [..."hello", "world"][0]);
-// console.log("here is a ferrum integer");
-// console.log(safe.int(42));
-// console.log(typeof safe.int)
-
-// const addOne = (x: number) => x + 1;
-// const result = fn.pipe(5).then(addOne).get();
-// console.log(result); // Outputs: 6
-
-// const asyncAddOne = async (x: number) => x + 1;
-// const result = fn.async.map(safe.ok(5), asyncAddOne);
-// result.then((res) => console.log(res)); // Outputs: { kind: "ok", value: 6 }
 
 // Example 2: Safe data processing
 function process_data() {
