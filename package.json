@@ -1,16 +1,27 @@
 {
   "name": "ferrum",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A safe, immutable, and functional programming library for TypeScript",
+  "main": "src/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "examples": "node run_examples.js",
+    "example:basic": "ts-node examples/basic_types.ts",
+    "example:collections": "ts-node examples/collections.ts",
+    "example:functional": "ts-node examples/functional.ts",
+    "example:async": "ts-node examples/async.ts",
+    "example:comprehensive": "ts-node examples/comprehensive.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "functional",
+    "typescript",
+    "immutable"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
