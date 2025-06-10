@@ -1,6 +1,6 @@
 import { Result } from "./types/result";
 import { Option } from "./types/option";
-import { Brand, brand } from "./types/brand";
+import { brand } from "./types/brand";
 import { int, float, uint, nonzero } from "./types/numeric";
 
 /**

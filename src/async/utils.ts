@@ -1,5 +1,4 @@
 import { Result } from "../types/result";
-import { Option } from "../types/option";
 import { safe } from "../safe";
 
 /**

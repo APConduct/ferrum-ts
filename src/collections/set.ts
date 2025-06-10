@@ -1,7 +1,4 @@
-import { Option } from "../types/option";
 import { Array } from "./array";
-import { Result } from "../types/result";
-import { safe } from "../safe";
 
 export class Set<T> {
   private constructor(private readonly items: ReadonlySet<T>) {}

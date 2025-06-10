@@ -1,5 +1,4 @@
 import { Option } from "../types/option";
-import { Result } from "../types/result";
 import { safe } from "../safe";
 import { int } from "../types/numeric";
 
