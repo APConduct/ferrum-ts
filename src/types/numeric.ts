@@ -15,17 +15,32 @@ export type uint = Brand<number, "uint">;
 export type nonzero = Brand<number, "nonzero">;
 
 export const numeric = {
+  /**
+   * Creates a safe integer type.
+   * @param n - The number to check.
+   * @return A Result containing the safe integer or an error.
+   */
   int: (n: number): Result<int, string> => {
     if (!Number.isFinite(n)) return safe.error("not_finite");
     if (!Number.isInteger(n)) return safe.error("not_integer");
     return safe.ok(brand<number, "int">(n));
   },
 
+  /**
+   * Creates a safe float type.
+   * @param n - The number to check.
+   * @return A Result containing the safe float or an error.
+   */
   float: (n: number): Result<float, string> => {
     if (!Number.isFinite(n)) return safe.error("not_finite");
     return safe.ok(brand<number, "float">(n));
   },
 
+  /**
+   * Creates a safe unsigned integer type.
+   * @param n - The number to check.
+   * @return A Result containing the safe unsigned integer or an error.
+   */
   uint: (n: number): Result<uint, string> => {
     const intResult = numeric.int(n);
     if (intResult.kind === "error") return intResult;
@@ -33,6 +48,11 @@ export const numeric = {
     return safe.ok(brand<number, "uint">(intResult.value));
   },
 
+  /**
+   * Creates a safe non-zero integer type.
+   * @param n - The number to check.
+   * @return A Result containing the safe non-zero integer or an error.
+   */
   nonzero: (n: number): Result<nonzero, string> => {
     const intResult = numeric.int(n);
     if (intResult.kind === "error") return intResult;

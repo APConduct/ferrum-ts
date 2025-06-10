@@ -30,6 +30,9 @@ export const fn = {
   /**
    * Compose functions from right to left
    * compose(f, g, h)(x) = f(g(h(x)))
+   * @param fns - Functions to compose
+   * @return A function that takes the parameters of the first function and returns the result of the composed functions
+   * @template T - Tuple of functions to compose
    */
   compose: <T extends readonly AnyFn[]>(...fns: [...T]) => {
     return (
@@ -62,6 +65,9 @@ export const fn = {
   /**
    * Pipe functions from left to right
    * pipe(f, g, h)(x) = h(g(f(x)))
+   * @param fns - Functions to pipe
+   * @return A function that takes the parameters of the first function and returns the result of the piped functions
+   * @template T - Tuple of functions to pipe
    */
   pipe: <T extends readonly AnyFn[]>(...fns: [...T]) => {
     return (
@@ -94,6 +100,9 @@ export const fn = {
   /**
    * Curry a function
    * curry((a, b, c) => d)(a)(b)(c) = d
+   * @param fn - Function to curry
+   * @return A curried version of the function
+   * @template F - Function to curry
    */
   curry: <F extends AnyFn>(fn: F) => {
     const curried = (...args: any[]) => {
@@ -108,6 +117,10 @@ export const fn = {
   /**
    * Partial application from the left
    * partial(f, a, b)(c) = f(a, b, c)
+   * @param fn - Function to partially apply
+   * @param args - Arguments to partially apply
+   * @return A function that takes the remaining parameters and returns the result of the original function
+   * @template F - Function to partially apply
    */
   partial: <F extends AnyFn>(fn: F, ...args: Partial<Parameters<F>>) => {
     return (...moreArgs: any[]) => fn(...args, ...moreArgs);
@@ -115,16 +128,20 @@ export const fn = {
 
   /**
    * Memoize a function
+   * memoize(f)(a, b) = cached result if available, otherwise f(a, b)
+   * @param fn - Function to memoize
+   * @param key_fn - Function to generate cache keys from arguments
+   * @return A memoized version of the function
    */
   memoize: <F extends AnyFn>(
     fn: F,
-    keyFn: (...args: Parameters<F>) => string = (...args) =>
+    key_fn: (...args: Parameters<F>) => string = (...args) =>
       JSON.stringify(args),
   ): F => {
     const cache = new Map<string, ReturnType<F>>();
 
     return ((...args: Parameters<F>): ReturnType<F> => {
-      const key = keyFn(...args);
+      const key = key_fn(...args);
       if (cache.has(key)) {
         return cache.get(key)!;
       }
@@ -136,6 +153,11 @@ export const fn = {
 
   /**
    * Debounce a function
+   * debounce(f, wait)(a, b) = waits for `wait` milliseconds before calling f(a, b)
+   * @param fn - Function to debounce
+   * @param wait - Time in milliseconds to wait before calling the function
+   * @return A debounced version of the function
+   * @template F - Function to debounce
    */
   debounce: <F extends AnyFn>(fn: F, wait: number): F => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -151,6 +173,11 @@ export const fn = {
 
   /**
    * Throttle a function
+   * throttle(f, wait)(a, b) = calls f(a, b) at most once every `wait` milliseconds
+   * @param fn - Function to throttle
+   * @param wait - Time in milliseconds to wait before allowing the next call
+   * @return A throttled version of the function
+   * @template F - Function to throttle
    */
   throttle: <F extends AnyFn>(fn: F, wait: number): F => {
     let last = 0;
@@ -180,6 +207,8 @@ export const fn = {
 
 /**
  * Type helper for curried functions
+ * This type recursively transforms a function type into a curried version.
+ * @template F - The function type to transform
  */
 type CurriedFunction<F extends AnyFn> = F extends (arg: infer A) => infer R
   ? (arg: A) => R
@@ -189,6 +218,8 @@ type CurriedFunction<F extends AnyFn> = F extends (arg: infer A) => infer R
 
 /**
  * Helper type for partially applied functions
+ * This type represents a function that takes the remaining parameters of a function after some have been applied.
+ * @template F - The function type to partially apply
  */
 type PartialFunction<F extends AnyFn, Applied extends any[]> = (
   ...args: RestParams<F>
